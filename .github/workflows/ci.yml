@@ -29,7 +29,18 @@ jobs:
 
     - name: Dependencies
       run: |
-        vcpkg install boost liblzma
+        vcpkg install `
+          boost-headers `
+          boost-filesystem `
+          boost-iostreams `
+          boost-program-options `
+          boost-date-time `
+          boost-format `
+          boost-foreach `
+          boost-range `
+          boost-lexical-cast `
+          boost-system `
+          liblzma
 
     - name: Configure
       shell: pwsh
