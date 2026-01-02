@@ -9,6 +9,44 @@ on:
     - cron: '21 11 * * 5'
 
 jobs:
+  windows:
+    name: Windows build
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgGitCommitId: '2023.10.19'
+
+    - name: Dependencies
+      run: |
+        vcpkg install boost xz-utils
+
+    - name: Configure
+      run: |
+        cmake --version
+        cmake -B ${{ github.workspace }}\build ^
+              -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake ^
+              -DCONTINUOUS_INTEGRATION=1 ^
+              -Werror=dev -Werror=deprecated
+
+    - name: Build
+      run: cmake --build ${{ github.workspace }}\build --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: |
+          build/**/Release/*.exe
+          build/**/Release/*.dll
+          build/**/Release/*.pdb
 
   linux:
     name: Linux build
