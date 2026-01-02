@@ -19,12 +19,9 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v11
-
     - name: Dependencies
       run: |
-        vcpkg install boost xz-utils
+        vcpkg install boost-iostreams boost-filesystem boost-program-options boost-date-time boost-system xz-utils
 
     - name: Configure
       run: |
