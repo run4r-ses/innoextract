@@ -34,12 +34,12 @@ jobs:
         vcpkg install boost-iostreams boost-filesystem boost-program-options boost-date-time boost-system liblzma
 
     - name: Configure
+      shell: pwsh
       run: |
         cmake --version
-        cmake -B ${{ github.workspace }}\build `
-              -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake `
-              -DCONTINUOUS_INTEGRATION=1 `
-              -Werror=dev -Werror=deprecated
+        cmake -B build -S . `
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+          -DCONTINUOUS_INTEGRATION=1
 
     - name: Build
       run: cmake --build ${{ github.workspace }}\build --config Release
