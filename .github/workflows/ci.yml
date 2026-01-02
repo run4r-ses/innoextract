@@ -30,15 +30,24 @@ jobs:
     - name: Dependencies
       run: |
         vcpkg install `
-          boost-headers `
+          boost-core `
+          boost-utility `
+          boost-integer `
+          boost-static-assert `
+          boost-typeof `
+          boost-unordered `
+          boost-container `
+          boost-ptr-container `
+          boost-algorithm `
+          boost-range `
+          boost-foreach `
+          boost-lexical-cast `
+          boost-format `
           boost-filesystem `
-          boost-iostreams `
+          boost-iostreams[bzip2,core,zlib] `
           boost-program-options `
           boost-date-time `
-          boost-format `
-          boost-foreach `
-          boost-range `
-          boost-lexical-cast `
+          boost-smart-ptr `
           boost-system `
           liblzma
 
