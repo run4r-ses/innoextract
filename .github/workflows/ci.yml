@@ -19,6 +19,16 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
+    - name: Cache vcpkg
+      uses: actions/cache@v4
+      with:
+        path: |
+          C:\vcpkg\installed
+          C:\vcpkg\packages
+        key: vcpkg-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          vcpkg-${{ runner.os }}-
+
     - name: Dependencies
       run: |
         vcpkg install boost-iostreams boost-filesystem boost-program-options boost-date-time boost-system liblzma
@@ -26,9 +36,9 @@ jobs:
     - name: Configure
       run: |
         cmake --version
-        cmake -B ${{ github.workspace }}\build ^
-              -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake ^
-              -DCONTINUOUS_INTEGRATION=1 ^
+        cmake -B ${{ github.workspace }}\build `
+              -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake `
+              -DCONTINUOUS_INTEGRATION=1 `
               -Werror=dev -Werror=deprecated
 
     - name: Build
