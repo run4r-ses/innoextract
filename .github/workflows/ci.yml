@@ -21,7 +21,7 @@ jobs:
 
     - name: Dependencies
       run: |
-        vcpkg install boost-iostreams boost-filesystem boost-program-options boost-date-time boost-system xz-utils
+        vcpkg install boost-iostreams boost-filesystem boost-program-options boost-date-time boost-system liblzma
 
     - name: Configure
       run: |
